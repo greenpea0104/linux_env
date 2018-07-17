@@ -1,0 +1,957 @@
+
+"-------------------------------------------------------------
+"tips
+"-------------------------------------------------------------
+
+"zz - centerize current line
+"space - scroll down
+"backspace - scroll up
+
+"CTRL+f : format code
+
+"CTRL+n : nerd tree
+"CTRL+m : taglist
+"CTRL+p : ctrlp search
+"
+"CTRL+c : comment c++
+"CTRL+u : uncomment c++
+"
+"
+"CTRL+h : window move
+"CTRL+j : window move
+"CTRL+k : window move
+"CTRL+l : window move
+"CTRL+e : window rotate
+"
+"
+"CTRL+o : line move
+"CTRL+i : line move
+
+"Leader is ,
+"
+"Leader+a : header/cpp
+"Leader+v : vert split
+"Leader+V : split
+"Leader+q : close window
+"Leader+Q : close all window
+
+"Leader+= : equal size of window
+"Leader+h : change size of window
+"Leader+l : change size of window
+"Leader+j : change size of window
+"Leader+k : change size of window
+"
+"Leader+z : pre buf
+"Leader+x : next buf
+"
+"
+"ALT/Ctrl+F11 - create cscope files
+"ALT/Ctrl+F12 - create ctags
+"
+"Tag Move
+"Ctrl+]  
+"Leader+] - in a seperate vertial window
+"Leader+[ - in a seperate horizontal window
+"Ctrl+Mouse_Left 
+"
+"
+"Jump back from the definition
+"
+"Ctrl+\
+"Ctrl+t  
+"Ctrl+Mouse_Right 
+"
+
+
+
+
+"-------------------------------------------------------------
+" Vundle to manage plugins
+"-------------------------------------------------------------
+
+
+" Get SID prefix of vimrc (see :h <SID>)
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+
+"could not download from shared dev? see
+"https://our.intern.facebook.com/intern/wiki/index.php/DevInternetProxy
+
+" setup Vundle to manage plugins
+" turn filetype on so that we can turn if off without generating an exit code
+" of 1 when quiting vim.
+filetype on                     " best to have it on before turning it off
+filetype off                    " needs to be off to setup Vundle
+
+
+
+"too slow when compared with YCM
+"Bundle 'neocomplcache' 
+"" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" " Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" " Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" Enable omni completion.
+ autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+ " Enable heavy omni completion.
+ if !exists('g:neocomplete#sources#omni#input_patterns')
+   let g:neocomplete#sources#omni#input_patterns = {}
+ endif
+" " Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+     \'default' : '',
+     \'vimshell' : $HOME.'/.vimshell_hist',
+     \'scheme' : $HOME.'/.gosh_completions'
+     \ }
+
+"" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+
+
+
+
+
+
+
+"-------------------------------------------------------------
+"Settings
+"-------------------------------------------------------------
+
+"line number color
+:highlight LineNr ctermfg=black
+:highlight LineNr guibg=black
+
+
+"  change map <leader> from \ to ,
+:let mapleader = ","
+
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set ruler "Always show current position
+set cmdheight=1 "The commandbar height
+set showmode "show current mode
+set showcmd  "show the command that currently typing
+set incsearch "Make search act like search in modern browsers
+set nolazyredraw "Don't redraw while executing macros 
+set magic "Set magic on, for regular expressions
+set showmatch "Show matching bracets when text indicator is over them
+set mat=2 "How many tenths of a second to blink
+"set showtabline=2 " always show tabs in gvim, but not vim
+set noerrorbells " No sound on errors
+set novisualbell
+"set nowrap " don't make it look like there are line breaks where there aren't:
+
+
+set fcs=vert:\  "fillchars split bar, just whitespace
+":highlight VertSplit gui=reverse guifg=Red
+
+set history=1000 " Sets how many lines of history VIM has to remember
+set autoread " Set to auto read when a file is changed from the outside
+set encoding=utf-8
+set termencoding=utf-8            " we like utf-8
+set ignorecase
+set ls=2
+set ttyfast
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4       " when <BS>, pretend a tab is removed even if spaces
+set scrolloff=5         " show context above/below cursor line
+set sidescrolloff=10    " number of cols from horizontal edge to  start scrolling
+set sidescroll=1        " number of cols to scroll at a time
+set expandtab
+set smarttab
+set smartindent
+set autoindent
+set backspace=2 
+set backspace=indent,eol,start
+set whichwrap+=<,>,h,l
+set gdefault " when on, the :substitute flag 'g' is default on (replace global)
+set hlsearch " when there is a previous search pattern, highlight all its matches
+set incsearch " while typing a search command, show where the pattern, as so far, matches
+set smartcase " override the ignorecase option if the search pattern contains upper case chars
+set showmatch " when a bracket is inserted, briefly jump to the matching one
+set nobackup
+set nowb
+set noswapfile
+fixdel "set expandtab bad for makefile
+set mouse=a
+"set cursorline
+"set cursorcolumn
+set shell=bash
+
+syntax enable
+" if terminal support colors, enable or disable accordingly
+if has('syntax') && (&t_Co > 2)
+   syntax on
+else
+   syntax off
+endif
+
+"http://vim.wikia.com/wiki/Folding
+"no folder column
+set foldlevel=3 "folding options
+set foldlevelstart=20 "set a very high fold level so that all folds are open by default
+set foldcolumn=0 "no column
+"set foldmethod=syntax
+set foldmethod=manual
+"manual          manually define folds
+"indent          more indent means a higher fold level
+"expr            specify an expression to define folds
+"syntax          folds defined by syntax highlighting
+"diff            folds for unchanged text
+"marker          folds defined by markers in the text
+
+"tab completion in command mode
+set wildmenu
+set wildignore=*.o,*~,*.pyc
+set wildmode=longest:list,full
+
+"set auto detect the directory to search the file to be opened from
+set autochdir
+
+" turn off Vi compatibility and enforce strict Vim usage
+set nocompatible
+" disable reading of.exrc and .gvimrc from the $HOME directory
+set noexrc
+
+set path+=**        "find recursively through all files in current dir
+
+set swb=usetab,split    "quickfix will switch to the tab/split that the error is
+                        "in instead of replacing the current buffer
+
+set ww+=<,>,h,l     "allow left and right movements to move to diff lines
+
+set dip+=vertical,iwhite   "diffs virtically by default, ignore whitespace
+
+"set list            "display whitespace characters (\n, \t)
+
+"ignore certain filetypes in tab complete
+set wildignore=*.o,*.obj,*.bak,*.exe,*.tsk,*.sundev1,*.ibm,*.lastlink,*.ml,*.msd,*.fil
+
+"set what is saved by mksession
+set sessionoptions=blank,buffers,curdir,folds,resize,tabpages,winpos,winsize
+" https://github.com/xolox/vim-session plugin
+
+filetype on
+filetype plugin on  " turn on filetype detection
+filetype plugin indent on
+
+set laststatus=2 " Always show the statusline
+
+"http://choorucode.com/2011/07/29/vim-chart-of-color-names/
+"gui
+hi User1 guifg=#ffdad8  guibg=#880c0e
+hi User2 guifg=#000000  guibg=#F4905C
+hi User3 guifg=#292b00  guibg=#f4f597
+hi User4 guifg=#112605  guibg=#aefe7B
+hi User5 guifg=#051d00  guibg=#7dcc7d
+hi User7 guifg=#ffffff  guibg=#880c0e gui=bold
+hi User8 guifg=#ffffff  guibg=#5b7fbb
+hi User9 guifg=#ffffff  guibg=#810085
+hi User0 guifg=#ffffff  guibg=#094afe
+
+"xterm
+"hi User8 ctermfg=white  ctermbg=black
+hi User8 ctermfg=lightblue ctermbg=white
+:highlight vertSplit ctermfg=white ctermbg=white
+:highlight Split ctermfg=white ctermbg=white
+
+"http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
+" Format the status line
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
+
+function! FileSize()
+     let bytes = getfsize(expand("%:p"))
+     if bytes <= 0
+         return ""
+     endif
+     if bytes < 1024
+         return bytes . "B"
+     else
+         return (bytes / 1024) . "KB"
+     endif
+endfunction
+
+"style and color of status bar
+"set statusline=L:%l,C:%c\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ 
+function! SetStatusLine()
+  set statusline=%8*\R:%l/%L\ C:%c\ %{HasPaste()}%F%m%r%h\ %w\ %{FileSize()}
+endfunction
+
+call SetStatusLine()
+
+set linespace=3                   " prefer a slight higher line height
+
+" statusline
+" " cf the default statusline: %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+" " format markers:
+" "   %< truncation point
+" "   %n buffer number
+" "   %f relative path to file
+" "   %m modified flag [+] (modified), [-] (unmodifiable) or nothing
+" "   %r readonly flag [RO]
+" "   %y filetype [ruby]
+" "   %= split point for left and right justification
+" "   %-35. width specification
+" "   %l current line number
+" "   %L number of lines in buffer
+" "   %c current column number
+" "   %V current virtual column number (-n), if different from %c
+" "   %P percentage through buffer
+" "   %) end of width specification
+"
+"
+
+" piiph's
+" set statusline=
+" set statusline+=%<\                       " cut at start
+" set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
+" set statusline+=%-40f\                    " path
+" set statusline+=%=%1*%y%*%*\              " file type
+" set statusline+=%10((%l,%c)%)\            " line and column
+" set statusline+=%P                        " percentage of file
+ 
+ 
+ " jamessan's
+" set statusline=   " clear the statusline for when vimrc is reloaded
+" set statusline+=%-3.3n\                      " buffer number
+" set statusline+=%f\                          " file name
+" set statusline+=%h%m%r%w                     " flags
+" set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
+" set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
+" set statusline+=%{&fileformat}]              " file format
+" set statusline+=%=                           " right align
+" set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+" set statusline+=%b,0x%-8B\                   " current char
+" set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
+ 
+ 
+ " tpope's
+" set statusline=[%n]\ %<%.99f\ %h%w%m%r%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%y%=%-16(\ %l,%c-%v\ %)%P
+ 
+ 
+ " frogonwheels'
+" set statusline=%f%w%m%h%1*%r%2*%{VarExists('b:devpath','<Rel>')}%3*%{VarExists('b:relpath','<Dev>')}%{XLockStat()}%=%-15(%l,%c%V%)%P
+ 
+ 
+ " godlygeek's
+" let &statusline='%<%f%{&mod?"[+]":""}%r%{&fenc !~ "^$\\|utf-8" || &bomb ? "[".&fenc.(&bomb?"-bom":"")."]" : ""}%=%15.(%l,%c%V %P%)'
+ 
+"
+
+" vim size 
+if has("gui_running")
+  " GUI is running or is about to start.
+  " Maximize gvim window.
+  set lines=60 columns=150
+else
+  " This is console Vim.
+  "if exists("+lines")
+  "  set lines=50
+  "endif
+  "if exists("+columns")
+  "  set columns=100
+  "endif
+endif
+
+
+" time out mappings after 1 second (1000) and key codes after 1/2 second (500)
+set timeout timeoutlen=1000 ttimeoutlen=500
+
+"set noshowmode                    " don't show the mode, vim-airline will do that for us
+set linebreak                     " wrap intelligently, won't insert hard line breaks
+set wrap                          " use line wrapping
+set textwidth=79                  " at column 79
+"set colorcolumn=81 " absolute columns to highlight "
+"set colorcolumn=+1 " relative (to textwidth) columns to highlight "
+set listchars=tab:▸\ ,eol:¬,trail:⋅,nbsp:␣,extends:❯,precedes:❮
+"if exists("&relativenumber")
+"  set relativenumber              " use relative line numbers
+"endif
+set number                        " except for the current line - absolute number there
+set mousehide                     " hide mouse when typing
+set foldenable                    " enable code folding
+set ffs=unix,mac,dos              " default file types
+set cryptmethod=blowfish          " Strong encryption is good
+
+" Setup automatic text formatting/wrapping (previously: grn1 )
+set formatoptions=
+set formatoptions-=t              " don't autowrap text
+set formatoptions+=c              " do autowrap comments
+set formatoptions+=r              " automatically continue comments
+set formatoptions+=o              " automatically continue comments when hitting 'o' or 'O'
+set formatoptions+=q              " allow formating of comments with 'gq'
+set formatoptions+=n              " recognize numbered lists
+set formatoptions+=l              " don't break long lines that were already there
+
+" What to do with files and focus
+set autowrite           " write out old file when switching between files
+au FocusLost * :wa      " save file when Vim loses focus
+set hidden              " switch beteen buffers without saving
+set backup                       " emable backups
+
+set undodir=~/.vim/tmp/undo/     " undo files
+set backupdir=~/.vim/tmp/backup/ " backups
+set directory=~/.vim/tmp/swap     " swap files
+
+" make these folders automatically if they don't already exist
+if !isdirectory(expand(&undodir))
+  call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), "p")
+endif
+
+
+" Highlight words to avoid in tech writing
+"
+"   obviously, basically, simply, of course, clearly,
+"   just, everyone knows, However, So, easy
+"
+"   http://css-tricks.com/words-avoid-educational-writing/
+"   https://github.com/pengwynn/dotfiles/commit/12159ea233180344be4e25d57056ccd37061a153
+
+"highlight TechWordsToAvoid ctermbg=red ctermfg=white
+"match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
+"autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+"autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+"autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+"autocmd BufWinLeave * call clearmatches()
+
+
+" automatically source .vimrc when it is saved (from vimcasts.org #24)
+" if has("autocmd")
+"  autocmd! bufwritepost .vimrc source $MYVIMRC
+" endif
+
+" reload .vimrc
+"map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+
+
+
+"-------------------------------------------------------------
+" Syntax config
+"-------------------------------------------------------------
+
+" https://github.com/apache/thrift/blob/master/contrib/thrift.vim
+au BufRead,BufNewFile *.thrift set filetype=thrift
+autocmd FileType thrift :setlocal sw=2 ts=2 sts=2
+au! Syntax thrift source ~/.bash/config/thrift.vim
+
+" http://protobuf.googlecode.com/svn-history/r28/trunk/editors/proto.vim
+augroup filetype
+  au! BufRead,BufNewFile *.proto set filetype=proto
+  autocmd FileType proto :setlocal sw=2 ts=2 sts=2
+  au! Syntax proto source ~/.bash/config/proto.vim
+augroup end
+
+"Google pro buf
+
+" This is the Vim syntax file for Google Protocol Buffers.
+"
+" Usage:
+"
+" 1. cp proto.vim ~/.vim/syntax/
+" 2. Add the following to ~/.vimrc:
+"
+" augroup filetype
+"   au! BufRead,BufNewFile *.proto setfiletype proto
+" augroup end
+"
+" Or just create a new file called ~/.vim/ftdetect/proto.vim with the
+" previous lines on it.
+"
+
+"" proto.vim
+
+"if version < 600
+"  syntax clear
+"elseif exists("b:current_syntax")
+"  finish
+"endif
+"
+"syn case match
+"
+"syn keyword pbTodo       contained TODO FIXME XXX
+"syn cluster pbCommentGrp contains=pbTodo
+"
+"syn keyword pbSyntax     syntax import option
+"syn keyword pbStructure  package message group
+"syn keyword pbRepeat     optional required repeated
+"syn keyword pbDefault    default
+"syn keyword pbExtend     extend extensions to max
+"syn keyword pbRPC        service rpc returns
+"
+"syn keyword pbType      int32 int64 uint32 uint64 sint32 sint64
+"syn keyword pbType      fixed32 fixed64 sfixed32 sfixed64
+"syn keyword pbType      float double bool string bytes
+"syn keyword pbTypedef   enum
+"syn keyword pbBool      true false
+"
+"syn match   pbInt     /-\?\<\d\+\>/
+"syn match   pbInt     /\<0[xX]\x+\>/
+"syn match   pbFloat   /\<-\?\d*\(\.\d*\)\?/
+"" TODO: .proto also supports C-style block comments;
+"" see /usr/share/vim/vim70/syntax/c.vim for how it's done.
+"syn region  pbComment start="//" skip="\\$" end="$" keepend contains=@pbCommentGrp
+"syn region  pbString  start=/"/ skip=/\\"/ end=/"/
+"syn region  pbString  start=/'/ skip=/\\'/ end=/'/
+"
+"if version >= 508 || !exists("did_proto_syn_inits")
+"  if version < 508
+"    let did_proto_syn_inits = 1
+"    command -nargs=+ HiLink hi link <args>
+"  else
+"    command -nargs=+ HiLink hi def link <args>
+"  endif
+"
+"  HiLink pbTodo         Todo
+"
+"  HiLink pbSyntax       Include
+"  HiLink pbStructure    Structure
+"  HiLink pbRepeat       Repeat
+"  HiLink pbDefault      Keyword
+"  HiLink pbExtend       Keyword
+"  HiLink pbRPC          Keyword
+"  HiLink pbType         Type
+"  HiLink pbTypedef      Typedef
+"  HiLink pbBool         Boolean
+"
+"  HiLink pbInt          Number
+"  HiLink pbFloat        Float
+"  HiLink pbComment      Comment
+"  HiLink pbString       String
+"
+"  delcommand HiLink
+"endif
+"
+"let b:current_syntax = "proto"
+
+
+
+"facebook thrift
+
+
+
+" Vim syntax file
+" Copy to ~/.vim/syntax/
+" Add to ~/.vimrc
+"  au BufRead,BufNewFile *.thrift set filetype=thrift
+"  au! Syntax thrift source ~/.vim/syntax/thrift.vim
+" $Id: $
+"
+
+"if version < 600
+"  syntax clear
+"elseif exists("b:current_syntax")
+"  finish
+"endif
+"
+"" Todo
+"syn keyword thriftTodo TODO todo FIXME fixme XXX xxx contained
+"
+"" Comments
+"syn match thriftComment "#.*" contains=thriftTodo
+"syn region thriftComment start="/\*" end="\*/" contains=thriftTodo
+"syn match thriftComment "//.\{-}\(?>\|$\)\@="
+"
+"" String
+"syn region thriftStringDouble matchgroup=None start=+"+  end=+"+
+"
+"" Number
+"syn match thriftNumber "-\=\<\d\+\>" contained
+"
+"" Keywords
+"syn keyword thriftKeyword namespace
+"syn keyword thriftKeyword xsd_all xsd_optional xsd_nillable xsd_attrs
+"syn keyword thriftKeyword include cpp_include cpp_type const optional required
+"syn keyword thriftBasicTypes void bool byte i16 i32 i64 double string binary
+"syn keyword thriftStructure map list set struct typedef exception enum throws
+"
+"" Special
+"syn match thriftSpecial "\d\+:"
+"
+"" Structure
+"syn keyword thriftStructure service oneway extends
+""async"         { return tok_async;         }
+""exception"     { return tok_xception;      }
+""extends"       { return tok_extends;       }
+""throws"        { return tok_throws;        }
+""service"       { return tok_service;       }
+""enum"          { return tok_enum;          }
+""const"         { return tok_const;         }
+"
+"if version >= 508 || !exists("did_thrift_syn_inits")
+"  if version < 508
+"    let did_thrift_syn_inits = 1
+"    command! -nargs=+ HiLink hi link <args>
+"  else
+"    command! -nargs=+ HiLink hi def link <args>
+"  endif
+"
+"  HiLink thriftComment Comment
+"  HiLink thriftKeyword Special
+"  HiLink thriftBasicTypes Type
+"  HiLink thriftStructure StorageClass
+"  HiLink thriftTodo Todo
+"  HiLink thriftString String
+"  HiLink thriftNumber Number
+"  HiLink thriftSpecial Special
+"  HiLink thriftStructure Structure
+"
+"  delcommand HiLink
+"endif
+"
+"let b:current_syntax = "thrift"
+
+
+
+
+
+"-------------------------------------------------------------
+"short cuts
+"-------------------------------------------------------------
+
+"format php
+map <C-D> :pyf ~/bin/hh-format-vim.py<CR>
+imap <C-D> <ESC>:pyf ~/bin/hh-format-vim.py<CR>i
+
+"CTRL+f
+"
+" Code format
+"
+" Clang style, fb default
+map <C-f> :pyf /mnt/vol/engshare/admin/scripts/vim/clang-format.py<CR>
+imap <C-f> <ESC>:pyf /mnt/vol/engshare/admin/scripts/vim/clang-format.py<CR>i
+
+
+" Stroustrup style, 2 spaces for indent
+" map <C-f> : %! astyle --style=stroustrup -s2<CR>
+" Java style
+" map <C-f> : %! astyle --style=java -s2<CR>
+
+"show/hide line numbers 
+"map <Leader>n :set number<CR>
+"map <Leader>N :set nonumber<CR>
+
+"space,backspace
+"
+"use space to page down and backspace to page up 
+map <Space> <PageDown>
+map <Backspace> <PageUp>
+
+"open nerdtree plugin, and show same style/color
+map <C-n> :NERDTreeToggle<CR> :call SetStatusLine()<CR>
+
+"open taglist plugin
+map <C-m> :Tlist<CR>
+let Tlist_Use_Right_Window   = 1
+
+"Commenting
+"Comment last selected block
+map <C-c> <ESC><ESC>:'<,'>s'^'//'g<CR>
+"Uncomment last selected block
+map <C-u> <ESC><ESC>:'<,'>s'^//''g<CR>
+
+" save file
+map <C-s> :w<CR>
+map <C-a> :wa<CR>
+
+
+"open h/cpp file a.vim
+map <Leader>a :AV<CR> 
+
+" open, close window
+" horizontal
+map <Leader>V <C-W>s 
+" vertical
+map <Leader>v <C-W>v
+" close
+map <Leader>q <C-W>q
+map <Leader>Q :qa<CR>
+
+" equal all windows
+map <Leader>= <C-W>=
+map <C-=> <C-W>=
+
+map <Leader>= <C-W>=
+map <Leader>= <C-W>=
+
+" size window
+nnoremap <Leader>h :vertical resize -10<cr>
+nnoremap <Leader>l :vertical resize +10<cr>
+nnoremap <Leader>k :resize +10<cr>
+nnoremap <Leader>j :resize -10<cr>
+
+" buffer move
+map <Leader>z :bp<CR>
+map <Leader>x :bn<CR>
+
+"create ctags
+set tags+=~/.vim/tags   "look for tag files
+set tags+=~/.vim/tags/cpp "tags for STL which resides in ~/.vim/tags/cpp_src
+map <Leader>t :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+"next window
+map <C-e> <C-W>W
+
+" Move line(s) up or down via C-; and C-k respectively 
+nnoremap <C-o> mz:m+<CR>`z
+nnoremap <C-i> mz:m-2<CR>`z
+
+"create cscope files and databases
+map <Leader>c :!find . -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" > cscope.files ; cscope -q -R -b -i cscope.files <CR>
+
+" tag navigation
+" ctrl+] : goto tag
+" ctrl+[ : back tag
+"ESC is escape , is C-T, do not mess up
+map <C-\> <C-T>
+
+" go tag in seperate window
+map <Leader>] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <Leader>[ :sp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+
+" ctrlp
+" file finder
+" Ctrl+P
+
+
+" use <Ctrl>+N/<Ctrl>+P to cycle through files:
+"nnoremap <C-N> :next<CR>
+"nnoremap <C-P> :prev<CR>
+
+"save and restore sessions
+"map <Leader>q :mksession!<CR>:qa<CR>
+"map <Leader>Q :source Session.vim<CR>
+"open a new tab
+"map <Leader>. :tabnew<CR>:edit .<CR>
+
+" Tab configuration
+map <leader>tn :tabnew<cr>
+map <leader>te :tabedit
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+
+"check for lines that exceed 80 chars
+nnoremap <leader>80 :let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)<cr>:let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)<cr>
+
+
+"-------------------------------------------------------------
+" Not used
+"-------------------------------------------------------------
+
+"SuperTab
+"let g:SuperTabDefaultCompletionType = "context"
+"let g:SuperTabDefaultCompleteType = "context"
+"let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+"let g:SuperTabMappingForward = '<M-space>'
+"let g:SuperTabMappingBackward = '<s-M-space>'
+"let g:SuperTabNoCompleteAfter = ['^', '}', ']', ')', ';', ',', '\s']
+
+"omnicpp-autocompletion
+"let OmniCpp_NamespaceSearch = 1
+"let OmniCpp_GlobalScopeSearch = 1
+"let OmniCpp_ShowAccess = 1
+"let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+"let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+"let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+"let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+"let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+"" automatically open and close the popup menu / preview window
+"au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+"set completeopt=menuone,menu,longest,preview
+"set omnifunc=omni#cpp#complete#Main
+
+"default font for gvim
+if has("gui_running")
+    set guifont=Monospace\ 12
+    set guifont=Courier\ 13
+    set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
+endif
+
+" not used, it would overrite my customizeion in xterm
+"colorscheme desert
+
+
+"minibuffer
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1 
+let g:miniBufExplModSelTarget = 1  
+
+"style and color
+"autocmd BufWinEnter *.* :sp
+"autocmd BufNew *.* :sp
+"autocmd BufWinEnter *.* :call SetStatusLine()
+"autocmd CmdwinEnter *.* :call SetStatusLine()
+"autocmd WinEnter *.* :call SetStatusLine()
+"autocmd BufEnter *.* :call SetStatusLine()
+"autocmd VimEnter *.* :call SetStatusLine()
+"autocmd BufNew *.* :call SetStatusLine()
+"autocmd BufNewFile *.* :call SetStatusLine()
+"autocmd BufRead *.* :call SetStatusLine()
+"autocmd BufAdd *.* :call SetStatusLine()
+
+
+
+"gvim
+"minibuf color, put this at the end of file otherwise colorschema would override
+hi MBEVisibleActive guifg=white guibg=fg
+hi MBEVisibleChangedActive guifg=white guibg=fg
+hi MBEVisibleChanged guifg=white guibg=fg
+hi MBEVisibleNormal guifg=green guibg=fg
+hi MBEChanged guifg=white guibg=fg
+hi MBENormal guifg=white guibg=fg
+
+hi MBEVisibleActive ctermfg=blue ctermbg=white
+hi MBEVisibleChangedActive ctermfg=blue ctermbg=white
+hi MBEVisibleChanged ctermfg=blue ctermbg=white
+hi MBEVisibleNormal ctermfg=blue ctermbg=white
+hi MBEChanged ctermfg=blue ctermbg=white
+hi MBENormal ctermfg=blue ctermbg=white
+
+
+"only in gvim
+"color schema ,Leader is by default \
+map <Leader>cd :colors desert<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>cs :colors soso<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>cm :colors morning<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>cp :colors pyte<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>cb :colors biogoo<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>ca :colors autumn<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR>
+map <Leader>co :colors solarized<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR> :set background=light<CR>
+map <Leader>ci :colors solarized<CR> :set guifont=Bitstream\ Vera\ Sans\ Mono\ 13<CR> :set background=dark<CR>
+
+map <A-1>  <Leader>cd
+map <A-2>  <Leader>cs
+map <A-3>  <Leader>co
+map <A-4>  <Leader>ci
+map <A-5>  <Leader>cb
+map <A-6>  <Leader>ca
+map <A-7>  <Leader>cm
+map <A-8>  <Leader>cp
+
+
+
+
+"-------------------------------------------------------------
+" Facebook
+"-------------------------------------------------------------
+
+"nmap <C-t> :TBGW<CR>
+
+"Facebook indent style; override these explicitly to turn them off.
+set shiftwidth=2    " two spaces per indent
+set tabstop=2       " number of spaces per tab in display
+set softtabstop=2   " number of spaces per tab when inserting
+set expandtab       " substitute spaces for tabs
+
+
+" Turn things on.  We need to run `filetype off` first because vim defaults
+" to `filetype on`, and unless we toggle it, our custom filetype detections
+" won't be run.
+filetype off
+filetype indent plugin on
+syntax enable
+
+" Display.
+set ruler           " show cursor position
+set nolist          " hide tabs and EOL chars
+set showcmd         " show normal mode commands as they are entered
+set showmode        " show editing mode in status (-- INSERT --)
+set showmatch       " flash matching delimiters
+
+" Scrolling.
+set scrolljump=5    " scroll five lines at a time vertically
+set sidescroll=10   " minumum columns to scroll horizontally
+
+" Search.
+"set nohlsearch      " don't persist search highlighting
+set incsearch       " search with typeahead
+
+" Indent.
+set autoindent      " carry indent over to new lines
+
+" Other.
+set noerrorbells      " no bells in terminal
+
+set backspace=indent,eol,start  " backspace over everything
+set tags=tags;/       " search up the directory tree for tags
+
+set undolevels=1000   " number of undos stored
+set viminfo='50,"50   # '=marks for x files, =registers for x files
+
+set modelines=0       " modelines are bad for your health
+
+
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+                 
+" kill any trailing whitespace on save
+autocmd FileType c,cabal,cpp,haskell,javascript,php,python,readme,text
+   \ autocmd BufWritePre <buffer>
+   \ :call <SID>StripTrailingWhitespaces()
+
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
+
+" saves search history and cursor position
+" call with some command, like removing all whitespace
+function! Preserve(command)
+  " preparation: save last search, and cursor position
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " do the business
+  execute a:command
+  " clean up: restore previous search history and cursor position
+  let @/=_s
+  call cursor(l,c)
+endfunction
+
+" strip whitespace from all lines in file
+nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
+
+" reindent entire file
+nmap _= :call Preserve("normal gg=G")<CR>
+
