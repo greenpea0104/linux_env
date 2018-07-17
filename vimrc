@@ -8,7 +8,8 @@
 "backspace - scroll up
 
 "CTRL+f : format code
-
+"CTRL+space use ycm auto-completion
+"
 "CTRL+n : nerd tree
 "CTRL+m : taglist
 "CTRL+p : ctrlp search
@@ -86,42 +87,31 @@ filetype off                    " needs to be off to setup Vundle
 
 
 
-"too slow when compared with YCM
-"Bundle 'neocomplcache' 
-"" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" " Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
- let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-" Enable omni completion.
- autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
- autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
- autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
- autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
- autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
- " Enable heavy omni completion.
- if !exists('g:neocomplete#sources#omni#input_patterns')
-   let g:neocomplete#sources#omni#input_patterns = {}
- endif
-" " Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-     \'default' : '',
-     \'vimshell' : $HOME.'/.vimshell_hist',
-     \'scheme' : $HOME.'/.gosh_completions'
-     \ }
+" set the runtime path to include Vundle and initialize
+set rtp+=~/vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-"" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
 
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
 
 
@@ -680,7 +670,17 @@ map <C-u> <ESC><ESC>:'<,'>s'^//''g<CR>
 
 " save file
 map <C-s> :w<CR>
-map <C-a> :wa<CR>
+"map <C-a> :wa<CR>
+
+"ycm completes
+let g:ycm_global_ycm_extra_conf='~/vim/ycm_extra_conf.py'  "设置全局配置文件的路径
+let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_confirm_extra_conf=0  " 打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_key_invoke_completion = '<C-Space>' " ctrl + space 触发补全，防止与其他插件冲突
+set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+" 定义跳转快捷键
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> 
 
 
 "open h/cpp file a.vim

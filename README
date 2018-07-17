@@ -3,6 +3,9 @@ http://www.cnblogs.com/zhongcq/p/3642794.html#toc_1.17
 https://www.cnblogs.com/shanql/articles/6048412.html
 https://blog.csdn.net/u013565071/article/details/78360559
 
+最新vim:
+https://blog.csdn.net/xyqzki/article/details/79130615
+
 ctags
 
 nerdtree
@@ -16,11 +19,15 @@ ctrlp
 https://github.com/ctrlpvim/ctrlp.vim
 http://ctrlpvim.github.io/ctrlp.vim/#installation
 
-YCM
+YCM: https://www.cnblogs.com/nidey/p/8657016.html
+https://zhuanlan.zhihu.com/p/33046090
 https://github.com/Valloric/YouCompleteMe
 http://valloric.github.io/YouCompleteMe/
 https://www.cnblogs.com/zhongcq/p/3630047.html
 https://blog.csdn.net/huangkangying/article/details/53483495
+
+wget https://dl.bintray.com/micbou/libclang/libclang-6.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.bz2
+wget https://releases.llvm.org/6.0.0/clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz 
 
 
 ========================================================================
