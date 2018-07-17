@@ -78,8 +78,14 @@ get_python_inc(),
 './tests/gmock/include',
 '-isystem',
 './benchmarks/benchmark/include',
+'-isystem',
+'/usr/include', # c code
+'-isystem',
+'/usr/local/include/c++/7.3.0/', # c++ 7.3
 '-I',
 '/home/zhanying/ads_core',  # weibo ads code
+'-I',
+'/home/zhanying/ads_core/thirdparty/folly/folly',  # folly
 ]
 
 # Clang automatically sets the '-std=' flag to 'c++14' for MSVC 2015 or later,
